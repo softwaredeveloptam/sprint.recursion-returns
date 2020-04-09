@@ -28,12 +28,12 @@ class RobotPaths {
     this.size = size;
   }
 
-  solve(x, y) {
+  solve() {
     let paths = 0;
-    let size = this.size;
-    let board = this.board;
+    const size = this.size;
+    const board = this.board;
 
-    function innerFunc(x, y) {
+    const innerFunc = (x, y) => {
       if (x === size - 1 && y === size - 1) {
         //exit case
         paths++;
@@ -51,7 +51,7 @@ class RobotPaths {
       innerFunc(x, y - 1);
       innerFunc(x - 1, y);
       board.togglePiece(x, y);
-    }
+    };
 
     innerFunc(0, 0);
     return paths;

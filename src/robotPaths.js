@@ -30,25 +30,30 @@ class RobotPaths {
 
   solve(x, y) {
     let paths = 0;
-    if (x === this.size - 1 && y === this.size - 1) {
-      //exit case
-      paths++;
-      return;
+    let size = this.size;
+    let board = this.board;
+
+    function innerFunc(x, y) {
+      if (x === size - 1 && y === size - 1) {
+        //exit case
+        paths++;
+        return;
+      }
+      if (x < 0 || x >= size || y < 0 || y >= size) {
+        return;
+      }
+      if (board.hasBeenVisited(x, y)) {
+        return;
+      }
+      board.togglePiece(x, y);
+      innerFunc(x, y + 1);
+      innerFunc(x + 1, y);
+      innerFunc(x, y - 1);
+      innerFunc(x - 1, y);
+      board.togglePiece(x, y);
     }
-    if (x < 0 || x >= this.size || y < 0 || y >= this.size) {
-      return;
-    }
-    if (this.board.hasBeenVisited(x, y)) {
-      return;
-    } else {
-      this.board.togglePiece(x, y);
-      this.solve(x, y + 1);
-      this.solve(x + 1, y);
-      this.solve(x, y - 1);
-      this.solve(x - 1, y);
-      this.board.togglePiece(x, y);
-    }
-    this.solve(0, 0);
+
+    innerFunc(0, 0);
     return paths;
   }
 }
